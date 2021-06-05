@@ -24,24 +24,30 @@ OF File $nameFileOut contenente ogni parola di $nameFileIn in una nuova linea.
 void printQueue(QueueDBA *coda, FILE *out) {
 	int i;
 	if( queueSize(coda) == 0) {
+		printf("WUT\n");
 		fprintf(out, "[ ]\n");
 		return;
 	}
 	fprintf(out, "[ ");
-	for(i = getFirstIndex(coda); i < getLastIndex(coda); i++) {
+	printf("for(i = %d; i< %d; i++)\n", getFirstIndex(coda), getLastIndex(coda) + 1);
+	for(i = getFirstIndex(coda); i < getLastIndex(coda) + 1; i++) {
+		printf("loop for elem[%d] (%f)\n", i, coda->elem[i]);
 		fprintf(out, "%.1f", coda->elem[i]);
-		if(i+1 < coda->last)
+		if(i+1 < coda->last + 1)
 			fprintf(out, ", ");
 	}
 	fprintf(out, " ]\n");
 }
 
-int main(int argc, char const **argv) {
+
+int main(int argc, char const **argv) {	
 	char nameFileIn[L_STRING], nameFileOut[L_STRING];
 	char read[OP_LENGTH];
 	double temp = 0;
 	FILE *inF, *outF;
 	QueueDBA coda;
+	if(argc < 3)
+        exit(0);
 	strcpy(nameFileIn, argv[1]);
 	strcpy(nameFileOut, argv[2]);
 	inF = fopen(nameFileIn, "r");
@@ -49,16 +55,15 @@ int main(int argc, char const **argv) {
         return -1;
 	outF = fopen(nameFileOut, "w");
     if (outF == NULL) {
-        fclose(outF);
+        fclose(inF);
         return -2;
     } /* if */
 	
-	while(true) {
+	while(!feof(inF)) {
 		fscanf(inF, "%s", read);
-        if (feof(inF))
-            break;
         if(strcmp(read ,"IN") == 0) {		/* queueInit */
-			queueInit(&coda);
+			queueInit(&coda);/*qui il problema */
+			printf("test");
 			fprintf(outF, "%s [ ]\n", read);
 		} 
 		else if(strcmp(read ,"CA") == 0) {	/* queueCapacity */
@@ -86,7 +91,7 @@ int main(int argc, char const **argv) {
 		else if(strcmp(read ,"GF") == 0) {	/* queueGetFirst */
 			temp = queueGetFirst(&coda);
 			if(temp == -1) {
-				fprintf(outF, "GF KO ", read);
+				fprintf(outF, "GF KO ");
 				printQueue(&coda, outF);
 			} else {
 				fprintf(outF, "GF %.1f ", queueGetFirst(&coda));
@@ -96,7 +101,7 @@ int main(int argc, char const **argv) {
 		else if(strcmp(read ,"RF") == 0) {	/* queueRemoveFirst */
 			temp = queueRemoveFirst(&coda);
 			if(temp == -1) {
-				fprintf(outF, "RF KO ", read);
+				fprintf(outF, "RF KO ");
 				printQueue(&coda, outF);
 			} else {
 				fprintf(outF, "RF %.1f ", temp);
@@ -104,7 +109,7 @@ int main(int argc, char const **argv) {
 			}
 		} 
 		else if(strcmp(read ,"FR") == 0) {	/* queueFree */
-			fprintf(outF, "FR\n", read);
+			fprintf(outF, "FR\n");
 			queueFree(&coda);
 		}		
 	} /* while */
