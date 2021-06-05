@@ -27,7 +27,7 @@ void printQueue(QueueDBA *coda, FILE *out) {
 		printf("WUT\n");
 		fprintf(out, "[ ]\n");
 		return;
-	}
+	} else {
 	fprintf(out, "[ ");
 	printf("for(i = %d; i< %d; i++)\n", getFirstIndex(coda), getLastIndex(coda) + 1);
 	for(i = getFirstIndex(coda); i < getLastIndex(coda) + 1; i++) {
@@ -37,6 +37,7 @@ void printQueue(QueueDBA *coda, FILE *out) {
 			fprintf(out, ", ");
 	}
 	fprintf(out, " ]\n");
+	}
 }
 
 
@@ -45,7 +46,7 @@ int main(int argc, char const **argv) {
 	char read[OP_LENGTH];
 	double temp = 0;
 	FILE *inF, *outF;
-	QueueDBA coda;
+	QueueDBA coda = {0};
 	if(argc < 3)
         exit(0);
 	strcpy(nameFileIn, argv[1]);
@@ -101,6 +102,7 @@ int main(int argc, char const **argv) {
 		else if(strcmp(read ,"RF") == 0) {	/* queueRemoveFirst */
 			temp = queueRemoveFirst(&coda);
 			if(temp == -1) {
+				printf("coda vuota");
 				fprintf(outF, "RF KO ");
 				printQueue(&coda, outF);
 			} else {
