@@ -36,12 +36,14 @@ bool queueIsEmpty(QueueDBA *coda) {
 } /* queueIsEmpty */
 
 bool isFull(QueueDBA *coda) {
-	return (coda->size == coda->capacity);
+	return (coda->first == coda->capacity - 1);
 } /* isFull */
 
 void queueAddLast(QueueDBA *coda, double num) { 
 	if(isFull(coda)) {
+		printf("coda piena.con numero %f\n", num);
 		queueResize(coda);
+		printf("resized\n");
 	}
 	coda->elem[++(coda->last)] = num;
 	coda->size++;
@@ -59,8 +61,9 @@ double queueRemoveFirst(QueueDBA *coda) {
 	if(i == -1)
 		return i;
 	else {
-		/*coda->size--;*/
-		coda->first++;
+		coda->size--;
+		if(coda->first++ < coda->capacity)
+			coda->first++;
 		return i;
 	}
 } /* queueRemoveFirst */
@@ -76,7 +79,7 @@ void queueFree(QueueDBA *coda) {
 	if(coda != NULL && coda->elem != NULL){
 		free(coda->elem);
 		coda->elem = NULL;
-		coda->capacity = 1;
+		coda->capacity = 0;
 		coda->size = 0;
 		coda->first = 0;
 		coda->last = -1;
