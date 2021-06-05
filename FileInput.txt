@@ -1,0 +1,16 @@
+IN
+CA
+AL 4.5
+CA
+AL 3.5
+SI
+IE
+GF
+RF
+RF
+RF
+AL 7.5
+AL 8.5
+IN
+CA
+AL 9.5
