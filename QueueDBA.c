@@ -5,6 +5,8 @@
 #include "QueueDBA.h"
 
 void queueInit(QueueDBA *coda) {
+	if(coda->elem != NULL)
+		free(coda->elem);
 	coda->capacity = 1;
 	coda->size = 0;
 	coda->first = 0;
@@ -57,7 +59,7 @@ double queueRemoveFirst(QueueDBA *coda) {
 	if(i == -1)
 		return i;
 	else {
-		coda->size--;
+		/*coda->size--;*/
 		coda->first++;
 		return i;
 	}
@@ -71,5 +73,12 @@ void queueResize(QueueDBA *coda) {
 } /* queueResize */
 
 void queueFree(QueueDBA *coda) {
-	free(coda);
+	if(coda != NULL && coda->elem != NULL){
+		free(coda->elem);
+		coda->elem = NULL;
+		coda->capacity = 1;
+		coda->size = 0;
+		coda->first = 0;
+		coda->last = -1;
+	} /* if */
 } /* queueFree */
