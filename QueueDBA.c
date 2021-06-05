@@ -39,7 +39,7 @@ bool isFull(QueueDBA *coda) {
 	return (coda->size == coda->capacity);
 } /* isFull */
 
-void queueAddLast(QueueDBA *coda, double num) { /*Il problema sta nel resize, che non funziona, e in isFull*/
+void queueAddLast(QueueDBA *coda, double num) { 
 	if(isFull(coda)) {
 		queueResize(coda);
 	}
