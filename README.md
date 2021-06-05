@@ -1,4 +1,4 @@
-# Queuebyarray
+# QBA
 
 Argomenti compilazione: gcc -ansi -pedantic -Wall -Werror -c
  
