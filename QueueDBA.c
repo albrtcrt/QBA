@@ -70,7 +70,7 @@ double queueRemoveFirst(QueueDBA *coda) {
 } /* queueRemoveFirst */
 
 void queueResize(QueueDBA *coda) {
-	int newLength = coda->capacity * 2;
+	int newLength = (coda->capacity + 1) * 2;
 	coda->elem = realloc(coda->elem, newLength * sizeof(double));	
 	assert(coda->elem != NULL);
 	coda->capacity = newLength;
