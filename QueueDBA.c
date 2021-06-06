@@ -56,13 +56,14 @@ double queueGetFirst(QueueDBA *coda) {
 } /* queueGetFirst */
 
 double queueRemoveFirst(QueueDBA *coda) {
+	int first = coda->first;
 	double i;
 	i = queueGetFirst(coda);
 	if(i == -1)
 		return i;
 	else {
 		coda->size--;
-		if(coda->first++ < coda->capacity)
+		if(first < coda->capacity)
 			coda->first++;
 		return i;
 	}
