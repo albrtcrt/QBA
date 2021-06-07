@@ -4,6 +4,9 @@
 #include <assert.h>
 #include "QueueDBA.h"
 
+/*Inizializzazione della struttura per la coda.
+IP coda Struttura da inizializzare.
+*/
 void queueInit(QueueDBA *coda) {
 	if(coda->elem != NULL)
 		free(coda->elem);
@@ -15,46 +18,79 @@ void queueInit(QueueDBA *coda) {
 	assert(coda->elem != NULL);
 } /* queueInit */
 
+/* Restituisce la capacita' della coda.
+IP coda Struttura di cui si vuole la capacita'.
+OR Capacita' della coda.
+*/
 int queueCapacity(QueueDBA *coda) {
 	return coda->capacity;
 } /* queueCapacity */
 
+/*Restituisce numero di elememti della coda.
+IP coda Coda di cui si vuole sapere il numero di elementi.
+OR Numero elementi.
+*/
 int queueSize(QueueDBA *coda) {
 	return coda->size;
 } /* queueSize */
 
+/* Restituisce indice primo elemento della coda.
+IP coda Coda di cui si vuole l'indice del primo elemento.
+OR Indice primo elemento.
+*/
 int getFirstIndex(QueueDBA *coda) {
 	return coda->first;
 }
 
+/* Restituisce indice ultimo elemento della coda.
+IP coda Coda di cui si vuole l'indice ultimo elemento.
+OR Indice ultimo elemento.
+*/
 int getLastIndex(QueueDBA *coda) {
 	return coda->last;
 }
 
+/* Verifica se coda è vuota.
+IP coda Coda da verificare.
+OR Ritorno true se la coda è vuota, false se sono presenti elementi.
+*/
 bool queueIsEmpty(QueueDBA *coda) {
 	return (coda->size == 0);
 } /* queueIsEmpty */
 
+/* Verifica se coda è piena.
+IP coda Coda da verificare.
+OR Ritorno true se la coda è piena, false se sono presenti spazi vuoti.
+*/
 bool isFull(QueueDBA *coda) {
 	return (coda->first == coda->capacity - 1);
 } /* isFull */
 
+/* Aggiunge un elemento alla fine della coda.
+IP coda Coda a cui aggiungere l'elemento.
+IP num Elemento da aggiungere.
+*/
 void queueAddLast(QueueDBA *coda, double num) { 
-	if(isFull(coda)) {
-		printf("coda piena.con numero %f\n", num);
+	if(isFull(coda))
 		queueResize(coda);
-		printf("resized\n");
-	}
 	coda->elem[++(coda->last)] = num;
 	coda->size++;
 } /* queueAddLast */
 
+/* Restituisce il primo elemento della coda.
+IP coda Coda di cui si vuole il primo elemento.
+OR Restituisce primo elemento, se presente, altrimenti restituisce -1.
+*/
 double queueGetFirst(QueueDBA *coda) {
 	if(queueIsEmpty(coda))
 		return -1; 
 	return coda->elem[coda->first];
 } /* queueGetFirst */
 
+/* Restituisce ed elimina il primo elemento dalla coda.
+IP coda Coda di cui si vuole il primo elemento e successivamente toglierlo.
+OR Restituisce primo elemento, se presente, altrimenti restituisce -1.
+*/
 double queueRemoveFirst(QueueDBA *coda) {
 	int first = coda->first;
 	double i;
@@ -69,6 +105,9 @@ double queueRemoveFirst(QueueDBA *coda) {
 	}
 } /* queueRemoveFirst */
 
+/* Aumenta la memoria a disposizione della struttura, e quindi la sua capacita'.
+IP coda Struttura di cui si vuole aumentare la memoria allocata.
+*/
 void queueResize(QueueDBA *coda) {
 	int newLength = (coda->capacity + 1) * 2;
 	coda->elem = realloc(coda->elem, newLength * sizeof(double));	
@@ -76,6 +115,9 @@ void queueResize(QueueDBA *coda) {
 	coda->capacity = newLength;
 } /* queueResize */
 
+/* Libera l'area di memoria allocata dalla struttura.
+IP coda Struttura di cui si vuole liberare l'area di memoria.
+*/
 void queueFree(QueueDBA *coda) {
 	if(coda != NULL && coda->elem != NULL){
 		free(coda->elem);
