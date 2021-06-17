@@ -26,3 +26,5 @@ double queueRemoveFirst(QueueDBA*);
 void queueResize(QueueDBA*);
 
 void queueFree(QueueDBA*);
+
+void checkAndSet(QueueDBA*); 
