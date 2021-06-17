@@ -40,7 +40,7 @@ OR Indice primo elemento.
 */
 int getFirstIndex(QueueDBA *coda) {
 	return coda->first;
-}
+} /* getFirstIndex */
 
 /* Restituisce indice ultimo elemento della coda.
 IP coda Coda di cui si vuole l'indice ultimo elemento.
@@ -48,7 +48,7 @@ OR Indice ultimo elemento.
 */
 int getLastIndex(QueueDBA *coda) {
 	return coda->last;
-}
+} /* getLastIndex */
 
 /* Verifica se coda è vuota.
 IP coda Coda da verificare.
@@ -63,7 +63,7 @@ IP coda Coda da verificare.
 OR Ritorno true se la coda è piena, false se sono presenti spazi vuoti.
 */
 bool isFull(QueueDBA *coda) {
-	return (coda->first == coda->capacity - 1);
+	return (coda->last  == coda->capacity - 1);
 } /* isFull */
 
 /* Aggiunge un elemento alla fine della coda.
@@ -100,20 +100,28 @@ double queueRemoveFirst(QueueDBA *coda) {
 	else {
 		coda->size--;
 		if(first < coda->capacity)
-			coda->first++;
+			(coda->first)++;
 		return i;
-	}
+	} /* else */
 } /* queueRemoveFirst */
 
 /* Aumenta la memoria a disposizione della struttura, e quindi la sua capacita'.
 IP coda Struttura di cui si vuole aumentare la memoria allocata.
 */
 void queueResize(QueueDBA *coda) {
-	int newLength = (coda->capacity + 1) * 2;
+	int newLength = (coda->capacity) * 2;
 	coda->elem = realloc(coda->elem, newLength * sizeof(double));	
 	assert(coda->elem != NULL);
 	coda->capacity = newLength;
 } /* queueResize */
+
+/* Verifico e correggo indice last della coda vuota.
+IP coda Struttura coda da esaminare.
+*/
+void checkAndSet(QueueDBA *coda) {
+	if(coda->first == coda->last && coda->size == 0 )
+		coda->last = coda->first - 1;
+} /* checkAndSet */
 
 /* Libera l'area di memoria allocata dalla struttura.
 IP coda Struttura di cui si vuole liberare l'area di memoria.
